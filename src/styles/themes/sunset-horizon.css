@@ -1,0 +1,75 @@
+/*
+ * Sunset Horizon 皮肤 — 取自 tweakcn（https://tweakcn.com，preset: sunset-horizon）。
+ * 仅保留 shadcn.css 合同内的 token；选择器约定见 default.css 头注。
+ */
+
+:root[data-skin='sunset-horizon'],
+[data-skin='sunset-horizon'] {
+  --radius: 0.625rem;
+  --background: oklch(0.9856 0.0084 56.3169);
+  --foreground: oklch(0.3353 0.0132 2.7676);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.3353 0.0132 2.7676);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.3353 0.0132 2.7676);
+  --primary: oklch(0.7357 0.1641 34.7091);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.9596 0.02 28.9029);
+  --secondary-foreground: oklch(0.5587 0.1294 32.7364);
+  --muted: oklch(0.9656 0.0176 39.4009);
+  --muted-foreground: oklch(0.5534 0.0116 58.0708);
+  --accent: oklch(0.8278 0.1131 57.9984);
+  --accent-foreground: oklch(0.3353 0.0132 2.7676);
+  --destructive: oklch(0.6122 0.2082 22.241);
+  --border: oklch(0.9296 0.037 38.6868);
+  --input: oklch(0.9296 0.037 38.6868);
+  --ring: oklch(0.7357 0.1641 34.7091);
+  --chart-1: oklch(0.7357 0.1641 34.7091);
+  --chart-2: oklch(0.8278 0.1131 57.9984);
+  --chart-3: oklch(0.8773 0.0763 54.9314);
+  --chart-4: oklch(0.82 0.1054 40.8859);
+  --chart-5: oklch(0.6368 0.1306 32.0721);
+  --sidebar: oklch(0.9656 0.0176 39.4009);
+  --sidebar-foreground: oklch(0.3353 0.0132 2.7676);
+  --sidebar-primary: oklch(0.7357 0.1641 34.7091);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.8278 0.1131 57.9984);
+  --sidebar-accent-foreground: oklch(0.3353 0.0132 2.7676);
+  --sidebar-border: oklch(0.9296 0.037 38.6868);
+  --sidebar-ring: oklch(0.7357 0.1641 34.7091);
+}
+
+:root[data-skin='sunset-horizon'].dark {
+  --radius: 0.625rem;
+  --background: oklch(0.2569 0.0169 352.4042);
+  --foreground: oklch(0.9397 0.0119 51.3156);
+  --card: oklch(0.3184 0.0176 341.4465);
+  --card-foreground: oklch(0.9397 0.0119 51.3156);
+  --popover: oklch(0.3184 0.0176 341.4465);
+  --popover-foreground: oklch(0.9397 0.0119 51.3156);
+  --primary: oklch(0.7357 0.1641 34.7091);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.3637 0.0203 342.2664);
+  --secondary-foreground: oklch(0.9397 0.0119 51.3156);
+  --muted: oklch(0.2848 0.0159 343.6554);
+  --muted-foreground: oklch(0.8378 0.0237 52.6346);
+  --accent: oklch(0.8278 0.1131 57.9984);
+  --accent-foreground: oklch(0.2569 0.0169 352.4042);
+  --destructive: oklch(0.6122 0.2082 22.241);
+  --border: oklch(0.3637 0.0203 342.2664);
+  --input: oklch(0.3637 0.0203 342.2664);
+  --ring: oklch(0.7357 0.1641 34.7091);
+  --chart-1: oklch(0.7357 0.1641 34.7091);
+  --chart-2: oklch(0.8278 0.1131 57.9984);
+  --chart-3: oklch(0.8773 0.0763 54.9314);
+  --chart-4: oklch(0.82 0.1054 40.8859);
+  --chart-5: oklch(0.6368 0.1306 32.0721);
+  --sidebar: oklch(0.2569 0.0169 352.4042);
+  --sidebar-foreground: oklch(0.9397 0.0119 51.3156);
+  --sidebar-primary: oklch(0.7357 0.1641 34.7091);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.8278 0.1131 57.9984);
+  --sidebar-accent-foreground: oklch(0.2569 0.0169 352.4042);
+  --sidebar-border: oklch(0.3637 0.0203 342.2664);
+  --sidebar-ring: oklch(0.7357 0.1641 34.7091);
+}

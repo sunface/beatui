@@ -5,6 +5,7 @@ import { userEvent } from 'vitest/browser'
 import { getCookie, setCookie } from '@/lib/cookies'
 import { DirectionProvider } from '@/context/direction-provider'
 import { LayoutProvider } from '@/context/layout-provider'
+import { SkinProvider } from '@/context/skin-provider'
 import { ThemeProvider } from '@/context/theme-provider'
 import { SidebarProvider } from '@/components/ui/sidebar'
 import { ConfigDrawer } from './config-drawer'
@@ -17,11 +18,13 @@ async function renderConfigDrawer({
   return await render(
     <DirectionProvider>
       <ThemeProvider>
-        <LayoutProvider>
-          <SidebarProvider defaultOpen={sidebarDefaultOpen}>
-            <ConfigDrawer />
-          </SidebarProvider>
-        </LayoutProvider>
+        <SkinProvider>
+          <LayoutProvider>
+            <SidebarProvider defaultOpen={sidebarDefaultOpen}>
+              <ConfigDrawer />
+            </SidebarProvider>
+          </LayoutProvider>
+        </SkinProvider>
       </ThemeProvider>
     </DirectionProvider>
   )
@@ -44,6 +47,7 @@ describe('ConfigDrawer (integration)', () => {
 
     document.documentElement.classList.remove('light', 'dark')
     document.documentElement.removeAttribute('dir')
+    document.documentElement.removeAttribute('data-skin')
   })
 
   it('opens the drawer and renders the sections', async () => {
@@ -56,6 +60,7 @@ describe('ConfigDrawer (integration)', () => {
     await expect.element(drawer).toBeInTheDocument()
 
     await expect.element(drawer.getByText(/^Theme$/i)).toBeInTheDocument()
+    await expect.element(drawer.getByText(/^Skin$/i)).toBeInTheDocument()
     await expect.element(drawer.getByText(/^Layout$/i)).toBeInTheDocument()
     await expect
       .element(drawer.getByText(/^Sidebar$/i).first())
@@ -110,6 +115,22 @@ describe('ConfigDrawer (integration)', () => {
         const hasDark = root.classList.contains('dark')
         expect(hasLight !== hasDark).toBe(true)
       })
+    })
+  })
+
+  describe('skin preference', () => {
+    it('applies claude skin to <html data-skin> and cookie', async () => {
+      const screen = await renderConfigDrawer()
+      await openDrawer(screen)
+      await userEvent.click(
+        screen.getByRole('radio', { name: /switch to claude skin/i })
+      )
+      await vi.waitFor(() =>
+        expect(document.documentElement.getAttribute('data-skin')).toBe(
+          'claude'
+        )
+      )
+      expect(getCookie('skin')).toBe('claude')
     })
   })
 
@@ -183,6 +204,26 @@ describe('ConfigDrawer (integration)', () => {
         })
       )
       await vi.waitFor(() => expect(getCookie('vite-ui-theme')).toBe('system'))
+    })
+
+    it('resets skin via section control after choosing claude', async () => {
+      const screen = await renderConfigDrawer()
+      await openDrawer(screen)
+
+      await userEvent.click(
+        screen.getByRole('radio', { name: /switch to claude skin/i })
+      )
+      await vi.waitFor(() => expect(getCookie('skin')).toBe('claude'))
+
+      await userEvent.click(
+        screen.getByRole('button', { name: /reset skin to default/i })
+      )
+      await vi.waitFor(() =>
+        expect(document.documentElement.getAttribute('data-skin')).toBe(
+          'default'
+        )
+      )
+      expect(getCookie('skin')).toBe('default')
     })
 
     it('resets direction via section control after choosing RTL', async () => {
@@ -278,12 +319,15 @@ describe('ConfigDrawer (integration)', () => {
     await vi.waitFor(() => expect(getCookie('layout_collapsible')).toBe('icon'))
   })
 
-  it('reset restores defaults across sidebar/theme/layout/direction', async () => {
+  it('reset restores defaults across sidebar/theme/skin/layout/direction', async () => {
     const screen = await renderConfigDrawer({ sidebarDefaultOpen: true })
 
     await openDrawer(screen)
 
     await userEvent.click(screen.getByRole('radio', { name: /select dark/i }))
+    await userEvent.click(
+      screen.getByRole('radio', { name: /switch to claude skin/i })
+    )
     await userEvent.click(
       screen.getByRole('radio', { name: /select right to left/i })
     )
@@ -295,6 +339,7 @@ describe('ConfigDrawer (integration)', () => {
     )
 
     await vi.waitFor(() => expect(getCookie('vite-ui-theme')).toBe('dark'))
+    await vi.waitFor(() => expect(getCookie('skin')).toBe('claude'))
     await vi.waitFor(() => expect(getCookie('dir')).toBe('rtl'))
     await vi.waitFor(() => expect(getCookie('layout_variant')).toBe('floating'))
     await vi.waitFor(() =>
@@ -310,6 +355,10 @@ describe('ConfigDrawer (integration)', () => {
     await vi.waitFor(() => expect(getCookie('sidebar_state')).toBe('true'))
     await vi.waitFor(() => expect(getCookie('dir')).toBeUndefined())
     await vi.waitFor(() => expect(getCookie('vite-ui-theme')).toBeUndefined())
+    await vi.waitFor(() => expect(getCookie('skin')).toBeUndefined())
+    await vi.waitFor(() =>
+      expect(document.documentElement.getAttribute('data-skin')).toBe('default')
+    )
     await vi.waitFor(() => expect(getCookie('layout_variant')).toBe('inset'))
     await vi.waitFor(() => expect(getCookie('layout_collapsible')).toBe('icon'))
     await vi.waitFor(() =>

@@ -11,9 +11,11 @@ import { IconSidebarSidebar } from '@/assets/custom/icon-sidebar-sidebar'
 import { IconThemeDark } from '@/assets/custom/icon-theme-dark'
 import { IconThemeLight } from '@/assets/custom/icon-theme-light'
 import { IconThemeSystem } from '@/assets/custom/icon-theme-system'
+import { skins } from '@/lib/skins'
 import { cn } from '@/lib/utils'
 import { useDirection } from '@/context/direction-provider'
 import { type Collapsible, useLayout } from '@/context/layout-provider'
+import { useSkin } from '@/context/skin-provider'
 import { useTheme } from '@/context/theme-provider'
 import { Button } from '@/components/ui/button'
 import {
@@ -31,12 +33,14 @@ export function ConfigDrawer() {
   const { setOpen } = useSidebar()
   const { resetDir } = useDirection()
   const { resetTheme } = useTheme()
+  const { resetSkin } = useSkin()
   const { resetLayout } = useLayout()
 
   const handleReset = () => {
     setOpen(true)
     resetDir()
     resetTheme()
+    resetSkin()
     resetLayout()
   }
 
@@ -61,6 +65,7 @@ export function ConfigDrawer() {
         </SheetHeader>
         <div className='space-y-6 overflow-y-auto px-4'>
           <ThemeConfig />
+          <SkinConfig />
           <SidebarConfig />
           <LayoutConfig />
           <DirConfig />
@@ -211,6 +216,78 @@ function ThemeConfig() {
       </Radio>
       <div id='theme-description' className='sr-only'>
         Choose between system preference, light mode, or dark mode
+      </div>
+    </div>
+  )
+}
+
+function SkinConfig() {
+  const { defaultSkin, skin, setSkin } = useSkin()
+  return (
+    <div>
+      <SectionTitle
+        title='Skin'
+        showReset={skin !== defaultSkin}
+        onReset={() => setSkin(defaultSkin)}
+        resetAriaLabel='Reset skin to default'
+      />
+      <Radio
+        value={skin}
+        onValueChange={setSkin}
+        className='grid w-full max-w-md grid-cols-3 gap-4'
+        aria-label='Select skin'
+        aria-describedby='skin-description'
+      >
+        {skins.map((s) => (
+          <Item
+            key={s}
+            value={s}
+            className={cn(
+              'group outline-none',
+              'transition duration-200 ease-in'
+            )}
+            aria-label={`Switch to ${s} skin`}
+            aria-describedby={`skin-${s}-description`}
+          >
+            <div
+              className={cn(
+                'relative rounded-[6px] ring-[1px] ring-border',
+                'group-data-[state=checked]:shadow-2xl group-data-[state=checked]:ring-primary',
+                'group-focus-visible:ring-2'
+              )}
+            >
+              <CircleCheck
+                className={cn(
+                  'size-6 fill-primary stroke-white',
+                  'group-data-[state=unchecked]:hidden',
+                  'absolute top-0 right-0 z-10 translate-x-1/2 -translate-y-1/2'
+                )}
+                aria-hidden='true'
+              />
+              {/* data-skin scopes the skin's own tokens to this preview box */}
+              <div
+                data-skin={s}
+                className='flex h-12 items-center justify-center gap-1.5 rounded-[inherit] bg-background'
+                role='img'
+                aria-label={`${s} skin color preview`}
+              >
+                <span className='size-4 rounded-full border bg-primary' />
+                <span className='size-4 rounded-full border bg-secondary' />
+                <span className='size-4 rounded-full border bg-accent' />
+              </div>
+            </div>
+            <div
+              className='mt-1 text-xs capitalize'
+              id={`skin-${s}-description`}
+              aria-live='polite'
+            >
+              {s.replace(/-/g, ' ')}
+            </div>
+          </Item>
+        ))}
+      </Radio>
+      <div id='skin-description' className='sr-only'>
+        Choose a built-in color skin for the interface
       </div>
     </div>
   )
