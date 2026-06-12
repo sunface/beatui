@@ -57,6 +57,7 @@ export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
         className='hidden w-full min-w-40 bg-background px-1 py-2 md:block'
       >
         <nav
+          data-component='sidebar-nav'
           className={cn(
             'flex space-x-2 py-1 lg:flex-col lg:space-y-1 lg:space-x-0',
             className

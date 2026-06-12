@@ -33,7 +33,7 @@ export function NavUser({ user }: NavUserProps) {
 
   return (
     <>
-      <SidebarMenu>
+      <SidebarMenu data-component='nav-user'>
         <SidebarMenuItem>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

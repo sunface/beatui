@@ -66,6 +66,7 @@ export function SignUpForm({
   return (
     <Form {...form}>
       <form
+        data-component='sign-up-form'
         onSubmit={form.handleSubmit(onSubmit)}
         className={cn('grid gap-3', className)}
         {...props}

@@ -84,6 +84,7 @@ export function UserAuthForm({
   return (
     <Form {...form}>
       <form
+        data-component='user-auth-form'
         onSubmit={form.handleSubmit(onSubmit)}
         className={cn('grid gap-3', className)}
         {...props}

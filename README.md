@@ -14,6 +14,7 @@ Based on [satnaing/shadcn-admin](https://github.com/satnaing/shadcn-admin) (MIT)
 - **Auth pages** — sign-in, sign-up, forgot password, OTP; UI + store skeleton, bring your own backend
 - **Settings & error pages** — profile/account/appearance/display/notifications, 401/403/404/500/503
 - **Skins** — one CSS file per skin, auto-registered, runtime switcher with live previews; ships with `default`, `claude`, `sunset-horizon`, `amethyst-haze`, design more at [tweakcn.com](https://tweakcn.com)
+- **AI-readable DOM** — `data-slot` on shadcn primitives, `data-component` on framework containers, and dev-only `data-source="file:line"` on every element: any DOM node maps straight back to source
 - Light/dark mode, RTL, font & layout switching via config drawer, ⌘K command menu
 - Component tests with Vitest browser mode (real Chromium via Playwright)
 
@@ -58,6 +59,16 @@ components/ui  ←  components/features  ←  demo  ←  routes (assembly)
 1. Does it have project business attributes? → `src/demo/` (in your project: your feature folder)
 2. Does it touch context or routing? → `src/components/features/`
 3. Otherwise → `src/components/ui/`
+
+**DOM ↔ source mapping** — three attribute layers make any DOM node traceable, by humans in devtools and by AI agents reading the DOM:
+
+| Attribute                         | Scope                                                                       | Written by                                 |
+| --------------------------------- | --------------------------------------------------------------------------- | ------------------------------------------ |
+| `data-slot`                       | every shadcn primitive                                                      | shadcn/ui                                  |
+| `data-component`                  | each framework component's container (portal components mark their Content) | this template                              |
+| `data-source="src/…/file.tsx:42"` | every host element, **dev only**                                            | `jsxDataSource` plugin in `vite.config.ts` |
+
+Production builds ship only the first two.
 
 ## Building a CRUD page
 

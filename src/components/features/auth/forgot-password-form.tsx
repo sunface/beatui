@@ -53,6 +53,7 @@ export function ForgotPasswordForm({
   return (
     <Form {...form}>
       <form
+        data-component='forgot-password-form'
         onSubmit={form.handleSubmit(onSubmit)}
         className={cn('grid gap-2', className)}
         {...props}

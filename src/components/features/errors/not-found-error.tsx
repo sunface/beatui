@@ -5,7 +5,7 @@ export function NotFoundError() {
   const navigate = useNavigate()
   const { history } = useRouter()
   return (
-    <div className='h-svh'>
+    <div data-component='not-found-error' className='h-svh'>
       <div className='m-auto flex h-full w-full flex-col items-center justify-center gap-2'>
         <h1 className='text-[7rem] leading-tight font-bold'>404</h1>
         <span className='font-medium'>Oops! Page Not Found!</span>

@@ -136,6 +136,7 @@ export function DataTableBulkActions<TData>({
       </div>
 
       <div
+        data-component='data-table-bulk-actions'
         ref={toolbarRef}
         role='toolbar'
         aria-label={`Bulk actions for ${selectedCount} selected ${entityName}${selectedCount > 1 ? 's' : ''}`}

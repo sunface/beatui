@@ -12,7 +12,7 @@ import { Button } from '../../ui/button'
 export function AppTitle() {
   const { setOpenMobile } = useSidebar()
   return (
-    <SidebarMenu>
+    <SidebarMenu data-component='app-title'>
       <SidebarMenuItem>
         <SidebarMenuButton
           size='lg'

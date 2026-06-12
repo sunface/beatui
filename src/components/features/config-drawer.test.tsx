@@ -58,6 +58,9 @@ describe('ConfigDrawer (integration)', () => {
     const drawer = screen.getByRole('dialog', { name: /theme settings/i })
 
     await expect.element(drawer).toBeInTheDocument()
+    await expect
+      .element(drawer)
+      .toHaveAttribute('data-component', 'config-drawer')
 
     await expect.element(drawer.getByText(/^Theme$/i)).toBeInTheDocument()
     await expect.element(drawer.getByText(/^Skin$/i)).toBeInTheDocument()

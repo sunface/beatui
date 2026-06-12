@@ -48,6 +48,7 @@ export function TopNav({ className, links, ...props }: TopNavProps) {
       </DropdownMenu>
 
       <nav
+        data-component='top-nav'
         className={cn(
           'hidden items-center space-x-4 lg:flex lg:space-x-4 xl:space-x-6',
           className

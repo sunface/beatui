@@ -43,7 +43,12 @@ export function ProfileDropdown({ user }: ProfileDropdownProps) {
             </Avatar>
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className='w-56' align='end' forceMount>
+        <DropdownMenuContent
+          data-component='profile-dropdown'
+          className='w-56'
+          align='end'
+          forceMount
+        >
           <DropdownMenuLabel className='font-normal'>
             <div className='flex flex-col gap-1.5'>
               <p className='text-sm leading-none font-medium'>{name}</p>

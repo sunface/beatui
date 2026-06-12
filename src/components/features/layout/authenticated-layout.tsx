@@ -22,7 +22,10 @@ export function AuthenticatedLayout({
   return (
     <SearchProvider>
       <LayoutProvider>
-        <SidebarProvider defaultOpen={defaultOpen}>
+        <SidebarProvider
+          data-component='authenticated-layout'
+          defaultOpen={defaultOpen}
+        >
           <SkipToMain />
           <AppSidebar data={sidebarData} />
           <SidebarInset

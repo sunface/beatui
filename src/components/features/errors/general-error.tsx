@@ -13,7 +13,10 @@ export function GeneralError({
   const navigate = useNavigate()
   const { history } = useRouter()
   return (
-    <div className={cn('h-svh w-full', className)}>
+    <div
+      data-component='general-error'
+      className={cn('h-svh w-full', className)}
+    >
       <div className='m-auto flex h-full w-full flex-col items-center justify-center gap-2'>
         {!minimal && (
           <h1 className='text-[7rem] leading-tight font-bold'>500</h1>

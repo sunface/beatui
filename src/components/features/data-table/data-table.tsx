@@ -25,7 +25,10 @@ export function DataTable<TData>({
   emptyText = 'No results.',
 }: DataTableProps<TData>) {
   return (
-    <div className='overflow-hidden rounded-md border'>
+    <div
+      data-component='data-table'
+      className='overflow-hidden rounded-md border'
+    >
       <Table className={className}>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (

@@ -19,7 +19,11 @@ type AppSidebarProps = {
 export function AppSidebar({ data }: AppSidebarProps) {
   const { collapsible, variant } = useLayout()
   return (
-    <Sidebar collapsible={collapsible} variant={variant}>
+    <Sidebar
+      data-component='app-sidebar'
+      collapsible={collapsible}
+      variant={variant}
+    >
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
 
