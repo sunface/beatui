@@ -1,0 +1,12 @@
+/*
+ * 样式入口：只做 @import 编排，顺序即覆盖顺序。
+ * shadcn.css = shadcn token 合同（CLI 管辖）；framework.css = 框架自有样式；
+ * themes/ = 皮肤覆盖（可选，最后 import，后加载者赢）。
+ */
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import './shadcn.css';
+@import './framework.css';
+/* @import './themes/<your-theme>.css'; */
+
+@custom-variant dark (&:is(.dark *));
