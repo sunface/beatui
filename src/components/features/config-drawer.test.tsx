@@ -4,6 +4,7 @@ import { render, type RenderResult } from 'vitest-browser-react'
 import { userEvent } from 'vitest/browser'
 import { getCookie, setCookie } from '@/lib/cookies'
 import { DirectionProvider } from '@/context/direction-provider'
+import { FontSizeProvider } from '@/context/font-size-provider'
 import { LayoutProvider } from '@/context/layout-provider'
 import { SkinProvider } from '@/context/skin-provider'
 import { ThemeProvider } from '@/context/theme-provider'
@@ -19,11 +20,13 @@ async function renderConfigDrawer({
     <DirectionProvider>
       <ThemeProvider>
         <SkinProvider>
-          <LayoutProvider>
-            <SidebarProvider defaultOpen={sidebarDefaultOpen}>
-              <ConfigDrawer />
-            </SidebarProvider>
-          </LayoutProvider>
+          <FontSizeProvider>
+            <LayoutProvider>
+              <SidebarProvider defaultOpen={sidebarDefaultOpen}>
+                <ConfigDrawer />
+              </SidebarProvider>
+            </LayoutProvider>
+          </FontSizeProvider>
         </SkinProvider>
       </ThemeProvider>
     </DirectionProvider>
@@ -48,6 +51,7 @@ describe('ConfigDrawer (integration)', () => {
     document.documentElement.classList.remove('light', 'dark')
     document.documentElement.removeAttribute('dir')
     document.documentElement.removeAttribute('data-skin')
+    document.documentElement.removeAttribute('data-font-size')
   })
 
   it('opens the drawer and renders the sections', async () => {
@@ -64,6 +68,7 @@ describe('ConfigDrawer (integration)', () => {
 
     await expect.element(drawer.getByText(/^Theme$/i)).toBeInTheDocument()
     await expect.element(drawer.getByText(/^Skin$/i)).toBeInTheDocument()
+    await expect.element(drawer.getByText(/^Font Size$/i)).toBeInTheDocument()
     await expect.element(drawer.getByText(/^Layout$/i)).toBeInTheDocument()
     await expect
       .element(drawer.getByText(/^Sidebar$/i).first())
@@ -134,6 +139,22 @@ describe('ConfigDrawer (integration)', () => {
         )
       )
       expect(getCookie('skin')).toBe('claude')
+    })
+  })
+
+  describe('font size preference', () => {
+    it('applies medium font size to <html data-font-size> and cookie', async () => {
+      const screen = await renderConfigDrawer()
+      await openDrawer(screen)
+      await userEvent.click(
+        screen.getByRole('radio', { name: /set font size medium/i })
+      )
+      await vi.waitFor(() =>
+        expect(document.documentElement.getAttribute('data-font-size')).toBe(
+          'md'
+        )
+      )
+      expect(getCookie('font_size')).toBe('md')
     })
   })
 
@@ -227,6 +248,26 @@ describe('ConfigDrawer (integration)', () => {
         )
       )
       expect(getCookie('skin')).toBe('default')
+    })
+
+    it('resets font size via section control after choosing medium', async () => {
+      const screen = await renderConfigDrawer()
+      await openDrawer(screen)
+
+      await userEvent.click(
+        screen.getByRole('radio', { name: /set font size medium/i })
+      )
+      await vi.waitFor(() => expect(getCookie('font_size')).toBe('md'))
+
+      await userEvent.click(
+        screen.getByRole('button', { name: /reset font size to default/i })
+      )
+      await vi.waitFor(() =>
+        expect(document.documentElement.getAttribute('data-font-size')).toBe(
+          'lg'
+        )
+      )
+      expect(getCookie('font_size')).toBe('lg')
     })
 
     it('resets direction via section control after choosing RTL', async () => {
@@ -332,6 +373,9 @@ describe('ConfigDrawer (integration)', () => {
       screen.getByRole('radio', { name: /switch to claude skin/i })
     )
     await userEvent.click(
+      screen.getByRole('radio', { name: /set font size medium/i })
+    )
+    await userEvent.click(
       screen.getByRole('radio', { name: /select right to left/i })
     )
     await userEvent.click(
@@ -343,6 +387,7 @@ describe('ConfigDrawer (integration)', () => {
 
     await vi.waitFor(() => expect(getCookie('vite-ui-theme')).toBe('dark'))
     await vi.waitFor(() => expect(getCookie('skin')).toBe('claude'))
+    await vi.waitFor(() => expect(getCookie('font_size')).toBe('md'))
     await vi.waitFor(() => expect(getCookie('dir')).toBe('rtl'))
     await vi.waitFor(() => expect(getCookie('layout_variant')).toBe('floating'))
     await vi.waitFor(() =>
@@ -361,6 +406,10 @@ describe('ConfigDrawer (integration)', () => {
     await vi.waitFor(() => expect(getCookie('skin')).toBeUndefined())
     await vi.waitFor(() =>
       expect(document.documentElement.getAttribute('data-skin')).toBe('default')
+    )
+    await vi.waitFor(() => expect(getCookie('font_size')).toBeUndefined())
+    await vi.waitFor(() =>
+      expect(document.documentElement.getAttribute('data-font-size')).toBe('lg')
     )
     await vi.waitFor(() => expect(getCookie('layout_variant')).toBe('inset'))
     await vi.waitFor(() => expect(getCookie('layout_collapsible')).toBe('icon'))

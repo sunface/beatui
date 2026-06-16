@@ -17,6 +17,15 @@
   html {
     @apply overflow-x-hidden;
   }
+
+  /* Interface font size (config-drawer): rem-based, so the whole UI scales.
+   * 'lg' has no rule on purpose — it keeps the browser default (16px). */
+  html[data-font-size='sm'] {
+    font-size: 14px;
+  }
+  html[data-font-size='md'] {
+    font-size: 15px;
+  }
   body {
     @apply min-h-svh w-full bg-background text-foreground has-[div[data-variant='inset']]:bg-sidebar;
   }

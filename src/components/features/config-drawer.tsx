@@ -11,9 +11,11 @@ import { IconSidebarSidebar } from '@/assets/custom/icon-sidebar-sidebar'
 import { IconThemeDark } from '@/assets/custom/icon-theme-dark'
 import { IconThemeLight } from '@/assets/custom/icon-theme-light'
 import { IconThemeSystem } from '@/assets/custom/icon-theme-system'
+import { fontSizes } from '@/lib/font-sizes'
 import { skins } from '@/lib/skins'
 import { cn } from '@/lib/utils'
 import { useDirection } from '@/context/direction-provider'
+import { useFontSize } from '@/context/font-size-provider'
 import { type Collapsible, useLayout } from '@/context/layout-provider'
 import { useSkin } from '@/context/skin-provider'
 import { useTheme } from '@/context/theme-provider'
@@ -34,6 +36,7 @@ export function ConfigDrawer() {
   const { resetDir } = useDirection()
   const { resetTheme } = useTheme()
   const { resetSkin } = useSkin()
+  const { resetFontSize } = useFontSize()
   const { resetLayout } = useLayout()
 
   const handleReset = () => {
@@ -41,6 +44,7 @@ export function ConfigDrawer() {
     resetDir()
     resetTheme()
     resetSkin()
+    resetFontSize()
     resetLayout()
   }
 
@@ -66,6 +70,7 @@ export function ConfigDrawer() {
         <div className='space-y-6 overflow-y-auto px-4'>
           <ThemeConfig />
           <SkinConfig />
+          <FontSizeConfig />
           <SidebarConfig />
           <LayoutConfig />
           <DirConfig />
@@ -288,6 +293,84 @@ function SkinConfig() {
       </Radio>
       <div id='skin-description' className='sr-only'>
         Choose a built-in color skin for the interface
+      </div>
+    </div>
+  )
+}
+
+const FONT_SIZE_LABELS: Record<string, string> = {
+  sm: 'Small',
+  md: 'Medium',
+  lg: 'Large',
+}
+
+const FONT_SIZE_PREVIEW: Record<string, string> = {
+  sm: 'text-xs',
+  md: 'text-sm',
+  lg: 'text-lg',
+}
+
+function FontSizeConfig() {
+  const { defaultFontSize, fontSize, setFontSize } = useFontSize()
+  return (
+    <div>
+      <SectionTitle
+        title='Font Size'
+        showReset={fontSize !== defaultFontSize}
+        onReset={() => setFontSize(defaultFontSize)}
+        resetAriaLabel='Reset font size to default'
+      />
+      <Radio
+        value={fontSize}
+        onValueChange={setFontSize}
+        className='grid w-full max-w-md grid-cols-3 gap-4'
+        aria-label='Select font size'
+        aria-describedby='font-size-description'
+      >
+        {fontSizes.map((size) => (
+          <Item
+            key={size}
+            value={size}
+            className={cn(
+              'group outline-none',
+              'transition duration-200 ease-in'
+            )}
+            aria-label={`Set font size ${FONT_SIZE_LABELS[size].toLowerCase()}`}
+            aria-describedby={`font-size-${size}-description`}
+          >
+            <div
+              className={cn(
+                'relative rounded-[6px] ring-[1px] ring-border',
+                'group-data-[state=checked]:shadow-2xl group-data-[state=checked]:ring-primary',
+                'group-focus-visible:ring-2'
+              )}
+            >
+              <CircleCheck
+                className={cn(
+                  'size-6 fill-primary stroke-white',
+                  'group-data-[state=unchecked]:hidden',
+                  'absolute top-0 right-0 z-10 translate-x-1/2 -translate-y-1/2'
+                )}
+                aria-hidden='true'
+              />
+              <div className='flex h-12 items-center justify-center'>
+                <span className={cn('font-medium', FONT_SIZE_PREVIEW[size])}>
+                  Aa
+                </span>
+              </div>
+            </div>
+            <div
+              className='mt-1 text-xs'
+              id={`font-size-${size}-description`}
+              aria-live='polite'
+            >
+              {FONT_SIZE_LABELS[size]}
+            </div>
+          </Item>
+        ))}
+      </Radio>
+      <div id='font-size-description' className='sr-only'>
+        Choose the interface font size
       </div>
     </div>
   )
