@@ -1,7 +1,9 @@
 import {
   Construction,
   LayoutDashboard,
+  MessagesSquare,
   Monitor,
+  Package,
   Bug,
   FileX,
   HelpCircle,
@@ -57,6 +59,16 @@ export const sidebarData: SidebarData = {
           title: 'Users',
           url: '/users',
           icon: Users,
+        },
+        {
+          title: 'Chats',
+          url: '/chats',
+          icon: MessagesSquare,
+        },
+        {
+          title: 'Apps',
+          url: '/apps',
+          icon: Package,
         },
       ],
     },
