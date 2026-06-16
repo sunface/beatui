@@ -1,5 +1,7 @@
 import { type LinkProps } from '@tanstack/react-router'
 
+type NavUrl = NonNullable<LinkProps['to']> | (string & {})
+
 type User = {
   name: string
   email: string
@@ -16,15 +18,16 @@ type BaseNavItem = {
   title: string
   badge?: string
   icon?: React.ElementType
+  disabled?: boolean
 }
 
 type NavLink = BaseNavItem & {
-  url: LinkProps['to'] | (string & {})
+  url: NavUrl
   items?: never
 }
 
 type NavCollapsible = BaseNavItem & {
-  items: (BaseNavItem & { url: LinkProps['to'] | (string & {}) })[]
+  items: (BaseNavItem & { url: NavUrl })[]
   url?: never
 }
 
@@ -41,4 +44,11 @@ type SidebarData = {
   navGroups: NavGroup[]
 }
 
-export type { SidebarData, NavGroup, NavItem, NavCollapsible, NavLink }
+export type {
+  SidebarData,
+  NavGroup,
+  NavItem,
+  NavCollapsible,
+  NavLink,
+  NavUrl,
+}

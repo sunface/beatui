@@ -11,11 +11,8 @@ import {
 } from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
 import { AppCard } from '@/components/features/apps'
-import { ConfigDrawer } from '@/components/features/config-drawer'
-import { Header } from '@/components/features/layout/header'
+import { AppHeader } from '@/components/features/layout/app-header'
 import { Main } from '@/components/features/layout/main'
-import { Search } from '@/components/features/search'
-import { ThemeSwitch } from '@/components/features/theme-switch'
 import { apps } from './data/apps'
 
 const route = getRouteApi('/_authenticated/apps/')
@@ -83,13 +80,7 @@ export function Apps() {
   return (
     <>
       {/* ===== Top Heading ===== */}
-      <Header>
-        <Search />
-        <div className='ms-auto flex items-center gap-4'>
-          <ThemeSwitch />
-          <ConfigDrawer />
-        </div>
-      </Header>
+      <AppHeader />
 
       {/* ===== Content ===== */}
       <Main fixed>

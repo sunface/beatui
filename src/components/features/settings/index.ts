@@ -1,5 +1,4 @@
 export { SettingsLayout } from './settings-layout'
-export { SidebarNav, type SettingsNavItem } from './sidebar-nav'
 export { ContentSection } from './content-section'
 export { SettingsAppearance } from './appearance'
 export { SettingsDisplay } from './display'

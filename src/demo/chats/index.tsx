@@ -20,11 +20,8 @@ import {
   ChatInput,
   ChatMessageList,
 } from '@/components/features/chat'
-import { ConfigDrawer } from '@/components/features/config-drawer'
-import { Header } from '@/components/features/layout/header'
+import { AppHeader } from '@/components/features/layout/app-header'
 import { Main } from '@/components/features/layout/main'
-import { Search } from '@/components/features/search'
-import { ThemeSwitch } from '@/components/features/theme-switch'
 import { NewChat } from './components/new-chat'
 import { type ChatUser } from './data/chat-types'
 import { conversations } from './data/convo'
@@ -48,13 +45,7 @@ export function Chats() {
   return (
     <>
       {/* ===== Top Heading ===== */}
-      <Header>
-        <Search />
-        <div className='ms-auto flex items-center space-x-4'>
-          <ThemeSwitch />
-          <ConfigDrawer />
-        </div>
-      </Header>
+      <AppHeader />
 
       <Main fixed>
         <section className='flex h-full gap-6'>

@@ -7,12 +7,8 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { ConfigDrawer } from '@/components/features/config-drawer'
-import { Header } from '@/components/features/layout/header'
+import { AppHeader } from '@/components/features/layout/app-header'
 import { Main } from '@/components/features/layout/main'
-import { TopNav } from '@/components/features/layout/top-nav'
-import { Search } from '@/components/features/search'
-import { ThemeSwitch } from '@/components/features/theme-switch'
 import { Analytics } from './components/analytics'
 import { Overview } from './components/overview'
 import { RecentSales } from './components/recent-sales'
@@ -21,12 +17,7 @@ export function Dashboard() {
   return (
     <>
       {/* ===== Top Heading ===== */}
-      <Header>
-        <TopNav links={topNav} className='me-auto' />
-        <Search />
-        <ThemeSwitch />
-        <ConfigDrawer />
-      </Header>
+      <AppHeader />
 
       {/* ===== Main ===== */}
       <Main>
@@ -187,30 +178,3 @@ export function Dashboard() {
     </>
   )
 }
-
-const topNav = [
-  {
-    title: 'Overview',
-    href: 'dashboard/overview',
-    isActive: true,
-    disabled: false,
-  },
-  {
-    title: 'Customers',
-    href: 'dashboard/customers',
-    isActive: false,
-    disabled: true,
-  },
-  {
-    title: 'Products',
-    href: 'dashboard/products',
-    isActive: false,
-    disabled: true,
-  },
-  {
-    title: 'Settings',
-    href: 'dashboard/settings',
-    isActive: false,
-    disabled: true,
-  },
-]

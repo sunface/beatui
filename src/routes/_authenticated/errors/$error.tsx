@@ -1,13 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { ConfigDrawer } from '@/components/features/config-drawer'
 import { ForbiddenError } from '@/components/features/errors/forbidden'
 import { GeneralError } from '@/components/features/errors/general-error'
 import { MaintenanceError } from '@/components/features/errors/maintenance-error'
 import { NotFoundError } from '@/components/features/errors/not-found-error'
 import { UnauthorisedError } from '@/components/features/errors/unauthorized-error'
-import { Header } from '@/components/features/layout/header'
-import { Search } from '@/components/features/search'
-import { ThemeSwitch } from '@/components/features/theme-switch'
+import { AppHeader } from '@/components/features/layout/app-header'
 
 export const Route = createFileRoute('/_authenticated/errors/$error')({
   component: RouteComponent,
@@ -28,11 +25,7 @@ function RouteComponent() {
 
   return (
     <>
-      <Header fixed className='border-b'>
-        <Search className='me-auto' />
-        <ThemeSwitch />
-        <ConfigDrawer />
-      </Header>
+      <AppHeader fixed className='border-b' />
       <div className='flex-1 [&>div]:h-full'>
         <ErrorComponent />
       </div>
