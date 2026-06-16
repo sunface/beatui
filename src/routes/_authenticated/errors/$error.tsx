@@ -6,7 +6,6 @@ import { MaintenanceError } from '@/components/features/errors/maintenance-error
 import { NotFoundError } from '@/components/features/errors/not-found-error'
 import { UnauthorisedError } from '@/components/features/errors/unauthorized-error'
 import { Header } from '@/components/features/layout/header'
-import { ProfileDropdown } from '@/components/features/profile-dropdown'
 import { Search } from '@/components/features/search'
 import { ThemeSwitch } from '@/components/features/theme-switch'
 
@@ -33,7 +32,6 @@ function RouteComponent() {
         <Search className='me-auto' />
         <ThemeSwitch />
         <ConfigDrawer />
-        <ProfileDropdown />
       </Header>
       <div className='flex-1 [&>div]:h-full'>
         <ErrorComponent />

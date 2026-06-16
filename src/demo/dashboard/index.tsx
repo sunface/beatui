@@ -11,7 +11,6 @@ import { ConfigDrawer } from '@/components/features/config-drawer'
 import { Header } from '@/components/features/layout/header'
 import { Main } from '@/components/features/layout/main'
 import { TopNav } from '@/components/features/layout/top-nav'
-import { ProfileDropdown } from '@/components/features/profile-dropdown'
 import { Search } from '@/components/features/search'
 import { ThemeSwitch } from '@/components/features/theme-switch'
 import { Analytics } from './components/analytics'
@@ -27,7 +26,6 @@ export function Dashboard() {
         <Search />
         <ThemeSwitch />
         <ConfigDrawer />
-        <ProfileDropdown />
       </Header>
 
       {/* ===== Main ===== */}

@@ -2,7 +2,6 @@ import { getRouteApi } from '@tanstack/react-router'
 import { ConfigDrawer } from '@/components/features/config-drawer'
 import { Header } from '@/components/features/layout/header'
 import { Main } from '@/components/features/layout/main'
-import { ProfileDropdown } from '@/components/features/profile-dropdown'
 import { Search } from '@/components/features/search'
 import { ThemeSwitch } from '@/components/features/theme-switch'
 import { UsersDialogs } from './components/users-dialogs'
@@ -23,7 +22,6 @@ export function Users() {
         <Search className='me-auto' />
         <ThemeSwitch />
         <ConfigDrawer />
-        <ProfileDropdown />
       </Header>
 
       <Main className='flex flex-1 flex-col gap-4 sm:gap-6'>
