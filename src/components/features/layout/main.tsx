@@ -6,16 +6,21 @@ type MainProps = React.HTMLAttributes<HTMLElement> & {
   ref?: React.Ref<HTMLElement>
 }
 
-export function Main({ fixed, className, fluid, ...props }: MainProps) {
+export function Main({
+  fixed = true,
+  className,
+  fluid = true,
+  ...props
+}: MainProps) {
   return (
     <main
       data-component='main'
       data-layout={fixed ? 'fixed' : 'auto'}
       className={cn(
-        'px-4 py-6',
+        'ps-3 pe-3 pt-2 pb-2',
 
         // If layout is fixed, make the main container flex and grow
-        fixed && 'flex grow flex-col overflow-hidden',
+        fixed && 'flex min-h-0 grow flex-col overflow-x-hidden overflow-y-auto',
 
         // If layout is not fluid, set the max-width
         !fluid &&

@@ -39,7 +39,9 @@
   --sidebar-ring: oklch(0.6104 0.0767 299.7335);
 }
 
-:root[data-skin='amethyst-haze'].dark {
+:root[data-skin='amethyst-haze'].dark,
+[data-skin='amethyst-haze'].dark,
+.dark [data-skin='amethyst-haze'] {
   --radius: 0.5rem;
   --background: oklch(0.2166 0.0215 292.8474);
   --foreground: oklch(0.9053 0.0245 293.557);

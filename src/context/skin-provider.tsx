@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import { getCookie, setCookie, removeCookie } from '@/lib/cookies'
-import { skins, type Skin } from '@/lib/skins'
+import { DEFAULT_SKIN, skins, type Skin } from '@/lib/skins'
 
 const SKIN_COOKIE_NAME = 'skin'
 const SKIN_COOKIE_MAX_AGE = 60 * 60 * 24 * 365 // 1 year
@@ -17,7 +17,7 @@ const SkinContext = createContext<SkinContextType | null>(null)
 export function SkinProvider({ children }: { children: React.ReactNode }) {
   const [skin, _setSkin] = useState<Skin>(() => {
     const savedSkin = getCookie(SKIN_COOKIE_NAME)
-    return savedSkin && skins.includes(savedSkin) ? savedSkin : skins[0]
+    return savedSkin && skins.includes(savedSkin) ? savedSkin : DEFAULT_SKIN
   })
 
   useEffect(() => {
@@ -31,11 +31,13 @@ export function SkinProvider({ children }: { children: React.ReactNode }) {
 
   const resetSkin = () => {
     removeCookie(SKIN_COOKIE_NAME)
-    _setSkin(skins[0])
+    _setSkin(DEFAULT_SKIN)
   }
 
   return (
-    <SkinContext value={{ defaultSkin: skins[0], skin, setSkin, resetSkin }}>
+    <SkinContext
+      value={{ defaultSkin: DEFAULT_SKIN, skin, setSkin, resetSkin }}
+    >
       {children}
     </SkinContext>
   )

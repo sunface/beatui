@@ -4,7 +4,7 @@ import { fontSizes, type FontSize } from '@/lib/font-sizes'
 
 const FONT_SIZE_COOKIE_NAME = 'font_size'
 const FONT_SIZE_COOKIE_MAX_AGE = 60 * 60 * 24 * 365 // 1 year
-const DEFAULT_FONT_SIZE: FontSize = 'lg'
+const DEFAULT_FONT_SIZE: FontSize = 'md'
 
 type FontSizeContextType = {
   defaultFontSize: FontSize

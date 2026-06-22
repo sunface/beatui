@@ -40,7 +40,9 @@
   --sidebar-ring: oklch(0.7731 0 0);
 }
 
-:root[data-skin='claude'].dark {
+:root[data-skin='claude'].dark,
+[data-skin='claude'].dark,
+.dark [data-skin='claude'] {
   --radius: 0.5rem;
   --background: oklch(0.2679 0.0036 106.6427);
   --foreground: oklch(0.8074 0.0142 93.0137);

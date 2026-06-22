@@ -1,7 +1,6 @@
 import { type SVGProps } from 'react'
 import { Root as Radio, Item } from '@radix-ui/react-radio-group'
 import { CircleCheck, RotateCcw, Settings } from 'lucide-react'
-import { IconDir } from '@/assets/custom/icon-dir'
 import { IconLayoutCompact } from '@/assets/custom/icon-layout-compact'
 import { IconLayoutDefault } from '@/assets/custom/icon-layout-default'
 import { IconLayoutFull } from '@/assets/custom/icon-layout-full'
@@ -73,7 +72,6 @@ export function ConfigDrawer() {
           <FontSizeConfig />
           <SidebarConfig />
           <LayoutConfig />
-          <DirConfig />
         </div>
         <SheetFooter className='gap-2'>
           <Button
@@ -255,11 +253,14 @@ function SkinConfig() {
             aria-describedby={`skin-${s}-description`}
           >
             <div
+              data-skin={s}
               className={cn(
-                'relative rounded-[6px] ring-[1px] ring-border',
+                'relative overflow-hidden rounded-[6px] bg-background text-primary ring-[1px] ring-border',
                 'group-data-[state=checked]:shadow-2xl group-data-[state=checked]:ring-primary',
                 'group-focus-visible:ring-2'
               )}
+              role='img'
+              aria-label={`${s} skin layout preview`}
             >
               <CircleCheck
                 className={cn(
@@ -269,17 +270,10 @@ function SkinConfig() {
                 )}
                 aria-hidden='true'
               />
-              {/* data-skin scopes the skin's own tokens to this preview box */}
-              <div
-                data-skin={s}
-                className='flex h-12 items-center justify-center gap-1.5 rounded-[inherit] bg-background'
-                role='img'
-                aria-label={`${s} skin color preview`}
-              >
-                <span className='size-4 rounded-full border bg-primary' />
-                <span className='size-4 rounded-full border bg-secondary' />
-                <span className='size-4 rounded-full border bg-accent' />
-              </div>
+              <IconLayoutDefault
+                className='block h-auto w-full fill-current stroke-current'
+                aria-hidden='true'
+              />
             </div>
             <div
               className='mt-1 text-xs capitalize'
@@ -305,8 +299,8 @@ const FONT_SIZE_LABELS: Record<string, string> = {
 }
 
 const FONT_SIZE_PREVIEW: Record<string, string> = {
-  sm: 'text-xs',
-  md: 'text-sm',
+  sm: 'text-sm',
+  md: 'text-base',
   lg: 'text-lg',
 }
 
@@ -473,49 +467,6 @@ function LayoutConfig() {
       </Radio>
       <div id='layout-description' className='sr-only'>
         Choose between default expanded, compact icon-only, or full layout mode
-      </div>
-    </div>
-  )
-}
-
-function DirConfig() {
-  const { defaultDir, dir, setDir } = useDirection()
-  return (
-    <div>
-      <SectionTitle
-        title='Direction'
-        showReset={defaultDir !== dir}
-        onReset={() => setDir(defaultDir)}
-        resetAriaLabel='Reset text direction to default'
-      />
-      <Radio
-        value={dir}
-        onValueChange={setDir}
-        className='grid w-full max-w-md grid-cols-3 gap-4'
-        aria-label='Select site direction'
-        aria-describedby='direction-description'
-      >
-        {[
-          {
-            value: 'ltr',
-            label: 'Left to Right',
-            icon: (props: SVGProps<SVGSVGElement>) => (
-              <IconDir dir='ltr' {...props} />
-            ),
-          },
-          {
-            value: 'rtl',
-            label: 'Right to Left',
-            icon: (props: SVGProps<SVGSVGElement>) => (
-              <IconDir dir='rtl' {...props} />
-            ),
-          },
-        ].map((item) => (
-          <RadioGroupItem key={item.value} item={item} />
-        ))}
-      </Radio>
-      <div id='direction-description' className='sr-only'>
-        Choose between left-to-right or right-to-left site direction
       </div>
     </div>
   )

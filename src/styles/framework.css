@@ -11,20 +11,21 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
-    scrollbar-width: thin;
-    scrollbar-color: var(--border) transparent;
   }
   html {
     @apply overflow-x-hidden;
   }
 
   /* Interface font size (config-drawer): rem-based, so the whole UI scales.
-   * 'lg' has no rule on purpose — it keeps the browser default (16px). */
+   * 'md' maps to the browser default scale (16px). */
   html[data-font-size='sm'] {
-    font-size: 14px;
+    font-size: 15px;
   }
   html[data-font-size='md'] {
-    font-size: 15px;
+    font-size: 16px;
+  }
+  html[data-font-size='lg'] {
+    font-size: 17px;
   }
   body {
     @apply min-h-svh w-full bg-background text-foreground has-[div[data-variant='inset']]:bg-sidebar;
@@ -39,15 +40,6 @@
   button:not(:disabled),
   [role='button']:not(:disabled) {
     cursor: pointer;
-  }
-
-  /* Prevent focus zoom on mobile devices */
-  @media screen and (max-width: 767px) {
-    input,
-    select,
-    textarea {
-      font-size: 16px !important;
-    }
   }
 }
 

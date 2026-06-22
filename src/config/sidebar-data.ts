@@ -21,13 +21,7 @@ import {
   Command,
   GalleryVerticalEnd,
 } from 'lucide-react'
-import type { SectionNavItem } from '@/components/features/layout/section-top-nav'
-import {
-  type NavCollapsible,
-  type NavItem,
-  type NavLink,
-  type SidebarData,
-} from '@/components/features/layout/types'
+import { type SidebarData } from '@/components/features/layout/types'
 
 export const sidebarData: SidebarData = {
   user: {
@@ -178,68 +172,4 @@ export const sidebarData: SidebarData = {
       ],
     },
   ],
-}
-
-export function getSectionNavItems(pathname: string): SectionNavItem[] {
-  const activeItem =
-    findActivePrimaryItem(pathname) ?? sidebarData.navGroups[0]?.items[0]
-  if (!activeItem) return []
-
-  if (isNavCollapsible(activeItem)) {
-    return activeItem.items.map((item) => ({
-      title: item.title,
-      href: item.url,
-      disabled: item.disabled,
-    }))
-  }
-
-  return [
-    {
-      title: activeItem.title,
-      href: activeItem.url,
-      disabled: activeItem.disabled,
-    },
-  ]
-}
-
-function findActivePrimaryItem(pathname: string) {
-  const path = normalizePath(pathname)
-  const candidates = sidebarData.navGroups.flatMap((group) => group.items)
-  return candidates
-    .filter((item) => isPrimaryItemMatch(path, item))
-    .sort((a, b) => getPrimaryItemScore(b) - getPrimaryItemScore(a))[0]
-}
-
-function isPrimaryItemMatch(pathname: string, item: NavItem) {
-  if (isNavCollapsible(item)) {
-    return item.items.some((child) => isPathMatch(pathname, child.url))
-  }
-
-  return isPathMatch(pathname, item.url)
-}
-
-function getPrimaryItemScore(item: NavItem) {
-  if (isNavCollapsible(item)) {
-    return Math.max(
-      ...item.items.map((child) => normalizePath(child.url).length)
-    )
-  }
-
-  return normalizePath(item.url).length
-}
-
-function isNavCollapsible(item: NavItem): item is NavCollapsible {
-  return 'items' in item && Array.isArray(item.items)
-}
-
-function normalizePath(path: string) {
-  const cleanPath = path.split('?')[0] ?? '/'
-  if (cleanPath === '/') return cleanPath
-  return cleanPath.replace(/\/+$/, '')
-}
-
-function isPathMatch(pathname: string, url: NavLink['url']) {
-  const target = normalizePath(String(url))
-  if (target === '/') return pathname === '/'
-  return pathname === target || pathname.startsWith(`${target}/`)
 }

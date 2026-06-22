@@ -4,16 +4,12 @@ import { AppHeader } from '@/components/features/layout/app-header'
 import { Main } from '@/components/features/layout/main'
 
 export const Route = createFileRoute('/_authenticated/help-center/')({
-  component: HelpCenter,
-})
-
-function HelpCenter() {
-  return (
+  component: () => (
     <>
       <AppHeader />
       <Main fixed className='flex flex-1'>
         <ComingSoon className='flex-1' />
       </Main>
     </>
-  )
-}
+  ),
+})

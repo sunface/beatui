@@ -1,20 +1,26 @@
-import { useLocation } from '@tanstack/react-router'
+import { useContext } from 'react'
 import { ConfigDrawer } from '@/components/features/config-drawer'
 import { Search } from '@/components/features/search'
 import { ThemeSwitch } from '@/components/features/theme-switch'
-import { getSectionNavItems } from '@/config/sidebar-data'
 import { Header, type HeaderProps } from './header'
-import { SectionTopNav } from './section-top-nav'
+import { SectionNavItemsContext } from './section-nav-context'
+import { SectionTopNav, type SectionNavItem } from './section-top-nav'
 
-type AppHeaderProps = HeaderProps
+type AppHeaderProps = HeaderProps & {
+  navItems?: SectionNavItem[]
+}
 
-export function AppHeader(props: AppHeaderProps) {
-  const pathname = useLocation({ select: (location) => location.pathname })
-  const navItems = getSectionNavItems(pathname)
+export function AppHeader({
+  fixed = true,
+  navItems,
+  ...props
+}: AppHeaderProps) {
+  const contextNavItems = useContext(SectionNavItemsContext)
+  const items = navItems ?? contextNavItems
 
   return (
-    <Header {...props}>
-      <SectionTopNav items={navItems} className='me-auto' />
+    <Header fixed={fixed} {...props}>
+      <SectionTopNav items={items} className='me-auto' />
       <Search />
       <ThemeSwitch />
       <ConfigDrawer />

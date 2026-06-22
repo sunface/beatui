@@ -73,7 +73,9 @@ describe('ConfigDrawer (integration)', () => {
     await expect
       .element(drawer.getByText(/^Sidebar$/i).first())
       .toBeInTheDocument()
-    await expect.element(drawer.getByText(/^Direction$/i)).toBeInTheDocument()
+    await expect
+      .element(drawer.getByText(/^Direction$/i))
+      .not.toBeInTheDocument()
     await expect
       .element(
         screen.getByRole('button', {
@@ -146,6 +148,11 @@ describe('ConfigDrawer (integration)', () => {
     it('applies medium font size to <html data-font-size> and cookie', async () => {
       const screen = await renderConfigDrawer()
       await openDrawer(screen)
+      await userEvent.click(
+        screen.getByRole('radio', { name: /set font size small/i })
+      )
+      await vi.waitFor(() => expect(getCookie('font_size')).toBe('sm'))
+
       await userEvent.click(
         screen.getByRole('radio', { name: /set font size medium/i })
       )
@@ -244,52 +251,30 @@ describe('ConfigDrawer (integration)', () => {
       )
       await vi.waitFor(() =>
         expect(document.documentElement.getAttribute('data-skin')).toBe(
-          'default'
+          'graphite'
         )
       )
-      expect(getCookie('skin')).toBe('default')
+      expect(getCookie('skin')).toBe('graphite')
     })
 
-    it('resets font size via section control after choosing medium', async () => {
+    it('resets font size via section control after choosing large', async () => {
       const screen = await renderConfigDrawer()
       await openDrawer(screen)
 
       await userEvent.click(
-        screen.getByRole('radio', { name: /set font size medium/i })
+        screen.getByRole('radio', { name: /set font size large/i })
       )
-      await vi.waitFor(() => expect(getCookie('font_size')).toBe('md'))
+      await vi.waitFor(() => expect(getCookie('font_size')).toBe('lg'))
 
       await userEvent.click(
         screen.getByRole('button', { name: /reset font size to default/i })
       )
       await vi.waitFor(() =>
         expect(document.documentElement.getAttribute('data-font-size')).toBe(
-          'lg'
+          'md'
         )
       )
-      expect(getCookie('font_size')).toBe('lg')
-    })
-
-    it('resets direction via section control after choosing RTL', async () => {
-      const screen = await renderConfigDrawer()
-      await openDrawer(screen)
-
-      await userEvent.click(
-        screen.getByRole('radio', { name: /select right to left/i })
-      )
-      await vi.waitFor(() =>
-        expect(document.documentElement.getAttribute('dir')).toBe('rtl')
-      )
-
-      await userEvent.click(
-        screen.getByRole('button', {
-          name: /reset text direction to default/i,
-        })
-      )
-      await vi.waitFor(() =>
-        expect(document.documentElement.getAttribute('dir')).toBe('ltr')
-      )
-      expect(getCookie('dir')).toBe('ltr')
+      expect(getCookie('font_size')).toBe('md')
     })
 
     it('resets sidebar style via section control after choosing floating', async () => {
@@ -332,20 +317,6 @@ describe('ConfigDrawer (integration)', () => {
     })
   })
 
-  it('changes direction and applies it to <html dir>', async () => {
-    const screen = await renderConfigDrawer()
-
-    await openDrawer(screen)
-
-    await userEvent.click(
-      screen.getByRole('radio', { name: /select right to left/i })
-    )
-    await vi.waitFor(() =>
-      expect(document.documentElement.getAttribute('dir')).toBe('rtl')
-    )
-    expect(getCookie('dir')).toBe('rtl')
-  })
-
   it('updates layout: selecting non-default closes sidebar and changes layout cookie', async () => {
     const screen = await renderConfigDrawer({ sidebarDefaultOpen: true })
 
@@ -363,7 +334,9 @@ describe('ConfigDrawer (integration)', () => {
     await vi.waitFor(() => expect(getCookie('layout_collapsible')).toBe('icon'))
   })
 
-  it('reset restores defaults across sidebar/theme/skin/layout/direction', async () => {
+  it('reset restores defaults across sidebar/theme/skin/layout and hidden direction', async () => {
+    setCookie('dir', 'rtl')
+
     const screen = await renderConfigDrawer({ sidebarDefaultOpen: true })
 
     await openDrawer(screen)
@@ -373,10 +346,7 @@ describe('ConfigDrawer (integration)', () => {
       screen.getByRole('radio', { name: /switch to claude skin/i })
     )
     await userEvent.click(
-      screen.getByRole('radio', { name: /set font size medium/i })
-    )
-    await userEvent.click(
-      screen.getByRole('radio', { name: /select right to left/i })
+      screen.getByRole('radio', { name: /set font size large/i })
     )
     await userEvent.click(
       screen.getByRole('radio', { name: /select floating/i })
@@ -387,8 +357,11 @@ describe('ConfigDrawer (integration)', () => {
 
     await vi.waitFor(() => expect(getCookie('vite-ui-theme')).toBe('dark'))
     await vi.waitFor(() => expect(getCookie('skin')).toBe('claude'))
-    await vi.waitFor(() => expect(getCookie('font_size')).toBe('md'))
+    await vi.waitFor(() => expect(getCookie('font_size')).toBe('lg'))
     await vi.waitFor(() => expect(getCookie('dir')).toBe('rtl'))
+    await vi.waitFor(() =>
+      expect(document.documentElement.getAttribute('dir')).toBe('rtl')
+    )
     await vi.waitFor(() => expect(getCookie('layout_variant')).toBe('floating'))
     await vi.waitFor(() =>
       expect(getCookie('layout_collapsible')).toBe('offcanvas')
@@ -405,11 +378,13 @@ describe('ConfigDrawer (integration)', () => {
     await vi.waitFor(() => expect(getCookie('vite-ui-theme')).toBeUndefined())
     await vi.waitFor(() => expect(getCookie('skin')).toBeUndefined())
     await vi.waitFor(() =>
-      expect(document.documentElement.getAttribute('data-skin')).toBe('default')
+      expect(document.documentElement.getAttribute('data-skin')).toBe(
+        'graphite'
+      )
     )
     await vi.waitFor(() => expect(getCookie('font_size')).toBeUndefined())
     await vi.waitFor(() =>
-      expect(document.documentElement.getAttribute('data-font-size')).toBe('lg')
+      expect(document.documentElement.getAttribute('data-font-size')).toBe('md')
     )
     await vi.waitFor(() => expect(getCookie('layout_variant')).toBe('inset'))
     await vi.waitFor(() => expect(getCookie('layout_collapsible')).toBe('icon'))

@@ -39,7 +39,9 @@
   --sidebar-ring: oklch(0.7357 0.1641 34.7091);
 }
 
-:root[data-skin='sunset-horizon'].dark {
+:root[data-skin='sunset-horizon'].dark,
+[data-skin='sunset-horizon'].dark,
+.dark [data-skin='sunset-horizon'] {
   --radius: 0.625rem;
   --background: oklch(0.2569 0.0169 352.4042);
   --foreground: oklch(0.9397 0.0119 51.3156);

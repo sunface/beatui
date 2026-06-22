@@ -44,11 +44,4 @@ type SidebarData = {
   navGroups: NavGroup[]
 }
 
-export type {
-  SidebarData,
-  NavGroup,
-  NavItem,
-  NavCollapsible,
-  NavLink,
-  NavUrl,
-}
+export type { SidebarData, NavGroup, NavItem, NavCollapsible, NavLink, NavUrl }

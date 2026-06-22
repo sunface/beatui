@@ -4,7 +4,9 @@
  *
  * 选择器约定（每个皮肤两块）：
  *   :root[data-skin='<name>'], [data-skin='<name>']  → 亮色
- *   :root[data-skin='<name>'].dark                   → 暗色
+ *   :root[data-skin='<name>'].dark,
+ *   [data-skin='<name>'].dark,
+ *   .dark [data-skin='<name>']                       → 暗色 / 局部暗色预览
  * 属性选择器抬高 specificity，覆盖 shadcn.css 默认值时不依赖加载顺序；
  * 裸 [data-skin] 份额让任意元素可做局部预览（config-drawer 的色板即此用法）。
  */
@@ -46,7 +48,9 @@
   --sidebar-ring: var(--ring);
 }
 
-:root[data-skin='default'].dark {
+:root[data-skin='default'].dark,
+[data-skin='default'].dark,
+.dark [data-skin='default'] {
   --background: oklch(0.129 0.042 264.695);
   --foreground: oklch(0.984 0.003 247.858);
   --card: oklch(0.14 0.04 259.21);
